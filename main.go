@@ -27,11 +27,7 @@ import (
 	"math/rand/v2"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/audio"
-	"github.com/hajimehoshi/ebiten/v2/audio/vorbis"
-	"github.com/hajimehoshi/ebiten/v2/audio/wav"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
-	raudio "github.com/hajimehoshi/ebiten/v2/examples/resources/audio"
 	"github.com/hajimehoshi/ebiten/v2/examples/resources/fonts"
 	resources "github.com/hajimehoshi/ebiten/v2/examples/resources/images/flappy"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
@@ -124,9 +120,9 @@ type Game struct {
 	touchIDs   []ebiten.TouchID
 	gamepadIDs []ebiten.GamepadID
 
-	audioContext *audio.Context
-	jumpPlayer   *audio.Player
-	hitPlayer    *audio.Player
+	// audioContext *audio.Context
+	// jumpPlayer *audio.Player
+	// hitPlayer  *audio.Player
 }
 
 func NewGame(crt bool) ebiten.Game {
@@ -148,27 +144,27 @@ func (g *Game) init() {
 		g.pipeTileYs[i] = rand.IntN(6) + 2
 	}
 
-	if g.audioContext == nil {
-		g.audioContext = audio.NewContext(48000)
-	}
+	// if g.audioContext == nil {
+	// 	g.audioContext = audio.NewContext(48000)
+	// }
 
-	jumpD, err := vorbis.DecodeF32(bytes.NewReader(raudio.Jump_ogg))
-	if err != nil {
-		log.Fatal(err)
-	}
-	g.jumpPlayer, err = g.audioContext.NewPlayerF32(jumpD)
-	if err != nil {
-		log.Fatal(err)
-	}
+	// jumpD, err := vorbis.DecodeF32(bytes.NewReader(raudio.Jump_ogg))
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// g.jumpPlayer, err = g.audioContext.NewPlayerF32(jumpD)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	jabD, err := wav.DecodeF32(bytes.NewReader(raudio.Jab_wav))
-	if err != nil {
-		log.Fatal(err)
-	}
-	g.hitPlayer, err = g.audioContext.NewPlayerF32(jabD)
-	if err != nil {
-		log.Fatal(err)
-	}
+	// jabD, err := wav.DecodeF32(bytes.NewReader(raudio.Jab_wav))
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// g.hitPlayer, err = g.audioContext.NewPlayerF32(jabD)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 }
 
 func (g *Game) isKeyJustPressed() bool {
@@ -219,10 +215,10 @@ func (g *Game) Update() error {
 		g.cameraX += 2
 		if g.isKeyJustPressed() {
 			g.vy16 = -96
-			if err := g.jumpPlayer.Rewind(); err != nil {
-				return err
-			}
-			g.jumpPlayer.Play()
+			// if err := g.jumpPlayer.Rewind(); err != nil {
+			// 	return err
+			// }
+			// g.jumpPlayer.Play()
 		}
 		g.y16 += g.vy16
 
@@ -233,10 +229,10 @@ func (g *Game) Update() error {
 		}
 
 		if g.hit() {
-			if err := g.hitPlayer.Rewind(); err != nil {
-				return err
-			}
-			g.hitPlayer.Play()
+			// if err := g.hitPlayer.Rewind(); err != nil {
+			// 	return err
+			// }
+			// g.hitPlayer.Play()
 			g.mode = ModeGameOver
 			g.gameoverCount = 30
 		}
