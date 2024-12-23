@@ -211,10 +211,13 @@ func (g *Game) Update() error {
 			g.mode = ModeGame
 		}
 	case ModeGame:
-		g.x16 += 32
-		g.cameraX += 2
+		// g.x16 += 32
+		g.x16 += 64
+		g.cameraX += 4
 		if g.isKeyJustPressed() {
-			g.vy16 = -96
+			// g.vy16 = -96
+			// g.vy16 = -48
+			g.vy16 = -125
 			// if err := g.jumpPlayer.Rewind(); err != nil {
 			// 	return err
 			// }
@@ -223,9 +226,10 @@ func (g *Game) Update() error {
 		g.y16 += g.vy16
 
 		// Gravity
+		// g.vy16 += 4
 		g.vy16 += 4
-		if g.vy16 > 96 {
-			g.vy16 = 96
+		if g.vy16 > 192 {
+			g.vy16 = 192
 		}
 
 		if g.hit() {
@@ -262,7 +266,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		titleTexts = "FLAPPY GOPHER"
 		texts = "\n\n\n\n\n\nPRESS SPACE KEY\n\nOR A/B BUTTON\n\nOR TOUCH SCREEN"
 	case ModeGameOver:
-		texts = "\nGAME OVER!"
+		texts = "\nLOL UR TOO BAD!"
 	}
 
 	op := &text.DrawOptions{}
@@ -312,6 +316,17 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	ebitenutil.DebugPrint(screen, fmt.Sprintf("TPS: %0.2f", ebiten.ActualTPS()))
 }
+
+// func (g *Game) pipeAt(tileX int) (tileY int, ok bool) {
+// 	if (tileX - pipeStartOffsetX) <= 0 {
+// 		return 0, false
+// 	}
+// 	if floorMod(tileX-pipeStartOffsetX, pipeIntervalX) != 0 {
+// 		return 0, false
+// 	}
+// 	idx := floorDiv(tileX-pipeStartOffsetX, pipeIntervalX)
+// 	return g.pipeTileYs[idx%len(g.pipeTileYs)], true
+// }
 
 func (g *Game) pipeAt(tileX int) (tileY int, ok bool) {
 	if (tileX - pipeStartOffsetX) <= 0 {
